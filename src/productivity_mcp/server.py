@@ -2,15 +2,46 @@
 
 from mcp.server.fastmcp import FastMCP
 
-# Create the MCP server
+from productivity_mcp.database.db import initialize_database
+from productivity_mcp.tools.tasks import (
+    complete_task as complete_task_db,
+    create_task as create_task_db,
+    delete_task as delete_task_db,
+    list_tasks as list_tasks_db,
+)
+
 mcp = FastMCP("Personal Productivity Server")
 
 
 @mcp.tool()
-def hello(name: str) -> str:
-    """Return a welcome message to verify that the MCP server is working."""
-    return f"Hello, {name}! Your Personal Productivity MCP Server is running."
+def create_task(
+    title: str,
+    description: str = "",
+    priority: str = "medium",
+    due_date: str | None = None,
+) -> dict:
+    """Create a new task."""
+    return create_task_db(title, description, priority, due_date)
+
+
+@mcp.tool()
+def list_tasks(include_completed: bool = False) -> list[dict]:
+    """List tasks stored in the productivity database."""
+    return list_tasks_db(include_completed)
+
+
+@mcp.tool()
+def complete_task(task_id: int) -> dict:
+    """Mark a task as completed."""
+    return complete_task_db(task_id)
+
+
+@mcp.tool()
+def delete_task(task_id: int) -> dict:
+    """Delete a task."""
+    return delete_task_db(task_id)
 
 
 if __name__ == "__main__":
+    initialize_database()
     mcp.run()
