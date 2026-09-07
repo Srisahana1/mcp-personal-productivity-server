@@ -1,6 +1,6 @@
 """MCP Personal Productivity Server."""
 
-from mcp.server.fastmcp import FastMCP
+from mcp.server import MCPServer
 
 from productivity_mcp.database.db import initialize_database
 
@@ -17,8 +17,8 @@ from productivity_mcp.tools.notes import (
 )
 
 
-# Create the MCP server
-mcp = FastMCP("Personal Productivity Server")
+# Create MCP server
+mcp = MCPServer("Personal Productivity Server")
 
 
 # -------------------------
@@ -42,9 +42,7 @@ def create_task(
 
 
 @mcp.tool()
-def list_tasks(
-    include_completed: bool = False,
-) -> list[dict]:
+def list_tasks(include_completed: bool = False) -> list[dict]:
     """List productivity tasks."""
     return list_tasks_db(include_completed)
 
@@ -62,14 +60,11 @@ def delete_task(task_id: int) -> dict:
 
 
 # -------------------------
-# Notes Tools
+# Note Tools
 # -------------------------
 
 @mcp.tool()
-def create_note(
-    title: str,
-    content: str,
-) -> dict:
+def create_note(title: str, content: str) -> dict:
     """Create and save a new note."""
     return create_note_db(title, content)
 
