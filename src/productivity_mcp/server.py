@@ -16,6 +16,11 @@ from productivity_mcp.tools.notes import (
     search_notes as search_notes_db,
 )
 
+from productivity_mcp.tools.events import (
+    add_event as add_event_db,
+    list_events as list_events_db,
+)
+
 
 # Create MCP server
 mcp = MCPServer("Personal Productivity Server")
@@ -73,6 +78,30 @@ def create_note(title: str, content: str) -> dict:
 def search_notes(query: str) -> list[dict]:
     """Search saved notes by title or content."""
     return search_notes_db(query)
+
+
+# -------------------------
+# Event Tools
+# -------------------------
+
+@mcp.tool()
+def add_event(
+    title: str,
+    event_date: str,
+    description: str = "",
+) -> dict:
+    """Create a new event."""
+    return add_event_db(
+        title,
+        event_date,
+        description,
+    )
+
+
+@mcp.tool()
+def list_events() -> list[dict]:
+    """List saved events."""
+    return list_events_db()
 
 
 # -------------------------
