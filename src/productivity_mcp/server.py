@@ -21,6 +21,10 @@ from productivity_mcp.tools.events import (
     list_events as list_events_db,
 )
 
+from productivity_mcp.tools.summary import (
+    daily_summary as daily_summary_db,
+)
+
 
 # Create MCP server
 mcp = MCPServer("Personal Productivity Server")
@@ -102,6 +106,16 @@ def add_event(
 def list_events() -> list[dict]:
     """List saved events."""
     return list_events_db()
+
+
+# -------------------------
+# Summary Tool
+# -------------------------
+
+@mcp.tool()
+def daily_summary(summary_date: str | None = None) -> dict:
+    """Return the daily productivity summary."""
+    return daily_summary_db(summary_date)
 
 
 # -------------------------
