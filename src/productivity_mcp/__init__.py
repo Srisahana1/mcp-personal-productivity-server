@@ -1,1 +1,1 @@
-MCP Personal Productivity Server.
+"""MCP Personal Productivity Server."""
